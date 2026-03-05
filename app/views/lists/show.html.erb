@@ -1,0 +1,65 @@
+<div class="container py-5">
+  <div class="d-flex align-items-center justify-content-between mb-5">
+    <h1 class="display-5 fw-bold"><%= @list.name %></h1>
+    <%= link_to "Back to lists", lists_path, class: "btn btn-outline-secondary rounded-pill" %>
+  </div>
+
+  <div class="row">
+    <!-- Main Column: Movies & Reviews -->
+    <div class="col-lg-8">
+      <!-- 1. Movie Cards -->
+      <div class="row mb-5">
+        <%= render @list.bookmarks %>
+      </div>
+
+      <hr class="my-5">
+
+      <!-- 2. Reviews Section -->
+      <div class="row">
+        <div class="col-12">
+          <h3 class="fw-bold mb-4">Reviews</h3>
+          <% if @reviews.empty? %>
+            <p class="text-muted italic">No reviews yet. Be the first to leave one!</p>
+          <% else %>
+            <% @reviews.each do |review| %>
+              <div class="p-3 bg-white shadow-sm rounded-4 mb-3 border-start border-primary border-4">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <div>
+                    <% review.rating.times do %>
+                      <i class="fas fa-star text-warning small"></i>
+                    <% end %>
+                    <% (5 - review.rating).times do %>
+                      <i class="far fa-star text-muted small"></i>
+                    <% end %>
+                  </div>
+                  <small class="text-muted"><%= review.created_at.strftime("%b %d, %Y") %></small>
+                </div>
+                <p class="mb-0">"<%= review.comment %>"</p>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar Column: Forms -->
+    <div class="col-lg-4">
+      <div class="sticky-top" style="top: 20px;">
+        <!-- Add Movie Form -->
+        <div class="mb-4">
+          <%= render "bookmarks/form", list: @list, bookmark: @bookmark %>
+        </div>
+
+        <!-- Add Review Form -->
+        <div class="p-4 bg-white shadow-sm rounded-4 border">
+          <h5 class="fw-bold mb-3">Add a Review</h5>
+          <%= simple_form_for [@list, Review.new] do |f| %>
+            <%= f.input :comment, placeholder: "What did you think?", input_html: { class: "rounded-3" } %>
+            <%= f.input :rating, collection: 1..5, prompt: "Rate 1-5", input_html: { class: "form-select rounded-3" } %>
+            <%= f.submit "Post Review", class: "btn btn-outline-primary w-100 rounded-pill mt-2" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

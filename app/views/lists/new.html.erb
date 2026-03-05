@@ -1,0 +1,25 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="bg-white shadow-sm rounded-4 p-4 p-sm-5">
+        <h2 class="fw-bold mb-4 text-center text-primary">New Movie List</h2>
+
+        <%= simple_form_for(@list) do |f| %>
+          <%= f.error_notification %>
+
+          <div class="form-inputs mb-3">
+            <%= f.input :name,
+                        placeholder: "e.g. 80's Sci-Fi",
+                        label: "List Name",
+                        input_html: { class: "rounded-3 p-3 shadow-none border-light-subtle" } %>
+          </div>
+
+          <div class="form-actions d-grid gap-2">
+            <%= f.button :submit, "Create List", class: "btn btn-primary btn-lg rounded-pill fw-bold py-3" %>
+            <%= link_to "Cancel", lists_path, class: "btn btn-light btn-sm rounded-pill py-2 text-muted" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
